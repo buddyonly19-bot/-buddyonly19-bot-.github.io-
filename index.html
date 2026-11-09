@@ -1,13 +1,14 @@
+```html
 <!DOCTYPE html>
-<html lang="th">
+<html lang="th" class="h-full bg-slate-100">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>ระบบติดตามและแจ้งเตือนสถานการณ์น้ำท่วม บ้านคลอแระ หมู่ 3</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Google Fonts (Prompt) -->
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -19,51 +20,60 @@
                         sans: ['Prompt', 'sans-serif'],
                     },
                     colors: {
-                        app: {
-                            bg: '#EBF1F7',
+                        brand: {
                             navy: '#0B2B4C',
-                            cardBg: '#0F3B66',
-                            accentGreen: '#10B981',
-                            accentYellow: '#F59E0B',
-                            accentRed: '#EF4444',
-                            accentPurple: '#9333EA',
+                            darkBlue: '#0F3C68',
+                            cyan: '#06B6D4',
+                            emerald: '#10B981',
+                            amber: '#F59E0B',
+                            rose: '#F43F5E',
+                            purple: '#8B5CF6',
                         }
+                    },
+                    boxShadow: {
+                        'glow-red': '0 0 20px rgba(239, 68, 68, 0.5)',
+                        'glow-amber': '0 0 20px rgba(245, 158, 11, 0.4)',
+                        'glow-emerald': '0 0 20px rgba(16, 185, 129, 0.4)',
+                        'glow-purple': '0 0 20px rgba(139, 92, 246, 0.5)',
                     }
                 }
             }
         }
     </script>
     <style>
+        * {
+            -webkit-tap-highlight-color: transparent;
+        }
         body {
             font-family: 'Prompt', sans-serif;
-            background-color: #EBF1F7;
-            padding-bottom: 90px;
+            padding-bottom: 95px;
         }
         
         .hero-card {
-            background: linear-gradient(165deg, #0F3C68 0%, #082442 100%);
-            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: linear-gradient(145deg, #0f3c68 0%, #08223c 60%, #051627 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
         }
 
         .glass-subcard {
             background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
         }
 
-        /* Vertical Water Gauge styling */
+        /* Water Level Vertical Gauge Meter */
         .gauge-container {
-            width: 54px;
-            height: 150px;
-            background: rgba(0, 0, 0, 0.35);
-            border-radius: 16px;
+            width: 58px;
+            height: 165px;
+            background: rgba(4, 15, 26, 0.7);
+            border-radius: 20px;
             border: 2px solid rgba(255, 255, 255, 0.2);
             position: relative;
             overflow: hidden;
             display: flex;
             flex-direction: column-reverse;
-            padding: 3px;
-            box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);
+            padding: 4px;
+            box-shadow: inset 0 3px 6px rgba(0,0,0,0.6);
         }
 
         .gauge-ticks {
@@ -72,7 +82,7 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            padding: 8px 4px;
+            padding: 10px 4px;
             pointer-events: none;
             z-index: 10;
         }
@@ -80,22 +90,38 @@
         .gauge-tick-line {
             width: 100%;
             height: 1px;
-            border-top: 1px dashed rgba(255, 255, 255, 0.4);
+            border-top: 1px dashed rgba(255, 255, 255, 0.35);
         }
 
         .gauge-fill {
             width: 100%;
-            border-radius: 10px;
-            transition: height 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.4s ease;
+            border-radius: 14px;
+            transition: height 0.8s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.5s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wave-animation {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            animation: wave 2s infinite ease-in-out;
+        }
+        @keyframes wave {
+            0%, 100% { transform: translateY(0) scaleY(1); }
+            50% { transform: translateY(2px) scaleY(1.3); }
         }
 
         .pulse-sos {
-            box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6);
             animation: pulse-sos-anim 1.8s infinite;
         }
         @keyframes pulse-sos-anim {
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-            70% { box-shadow: 0 0 0 14px rgba(239, 68, 68, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.8); }
+            70% { box-shadow: 0 0 0 16px rgba(239, 68, 68, 0); }
             100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
 
@@ -119,10 +145,10 @@
 
         /* Animations */
         .animate-fade-in {
-            animation: fadeIn 0.3s ease-in-out;
+            animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
+            from { opacity: 0; transform: translateY(6px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -131,17 +157,17 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
-<body class="text-slate-800 antialiased min-h-screen">
+<body class="text-slate-800 antialiased min-h-screen bg-slate-100 selection:bg-cyan-500 selection:text-white">
 
-    <!-- TOP MOBILE APP HEADER -->
-    <header class="bg-white sticky top-0 z-40 shadow-sm border-b border-slate-200/80 px-4 py-2.5">
+    <!-- TOP HEADER -->
+    <header class="bg-white/95 backdrop-blur-md sticky top-0 z-40 shadow-sm border-b border-slate-200/80 px-4 py-2.5">
         <div class="max-w-md mx-auto flex items-center justify-between gap-2">
             <div class="flex items-center gap-2.5 min-w-0">
                 <!-- Village Logo Badge -->
-                <div class="flood-logo-wrapper w-11 h-11 flex-shrink-0">
+                <div class="flood-logo-wrapper w-10 h-10 flex-shrink-0">
                     <div class="flood-logo-ring"></div>
-                    <div class="w-10 h-10 rounded-full bg-blue-950 relative z-10 p-0.5 shadow-md overflow-hidden border border-blue-200 flex items-center justify-center">
-                        <i class="fa-solid fa-house-tsunami text-cyan-400 text-lg"></i>
+                    <div class="w-10 h-10 rounded-full bg-slate-950 relative z-10 p-0.5 shadow-md overflow-hidden border border-cyan-300 flex items-center justify-center">
+                        <i class="fa-solid fa-house-tsunami text-cyan-400 text-base"></i>
                         <div class="absolute bottom-0 inset-x-0 bg-blue-600/90 py-0.5 text-center flex items-center justify-center">
                             <i class="fa-solid fa-water text-[7px] text-white animate-bounce"></i>
                         </div>
@@ -149,23 +175,23 @@
                 </div>
                 <div class="truncate">
                     <h1 class="font-extrabold text-slate-900 text-sm leading-tight flex items-center gap-1">
-                        บ้านคลอแระ <span class="text-[10px] px-1.5 py-0.2 bg-emerald-100 text-emerald-800 rounded-md font-bold">หมู่ 3</span>
+                        บ้านคลอแระ <span class="text-[10px] px-1.5 py-0.5 bg-emerald-100 text-emerald-800 rounded-md font-bold">หมู่ 3</span>
                     </h1>
                     <p class="text-[10px] text-slate-500 font-medium truncate">ต.บาเระใต้ อ.บาเจาะ จ.นราธิวาส</p>
                 </div>
             </div>
 
-            <!-- Dynamic Header Controls & Status Capsule -->
+            <!-- Header Dynamic Status Badge & Mode Controls -->
             <div class="flex items-center gap-1.5 flex-shrink-0">
-                <button onclick="openSuperAdminLoginModal()" id="admin-mode-btn" class="px-2 py-1 rounded-full bg-slate-800 hover:bg-slate-900 text-amber-300 text-xs font-bold border border-amber-400/40 flex items-center gap-1 transition">
-                    <i class="fa-solid fa-crown text-amber-400"></i>
-                    <span id="admin-btn-text" class="hidden sm:inline">Super Admin</span>
+                <button onclick="toggleSuperAdminMode()" id="admin-mode-btn" class="px-2 py-1 rounded-full bg-slate-800 hover:bg-slate-900 text-amber-300 text-xs font-bold border border-amber-400/40 flex items-center gap-1 transition active:scale-95">
+                    <i class="fa-solid fa-crown text-amber-400 text-[11px]"></i>
+                    <span id="admin-btn-text" class="hidden sm:inline">Admin</span>
                 </button>
-                <button onclick="toggleRescueOfficerMode()" id="officer-mode-btn" class="px-2 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold border border-slate-300 flex items-center gap-1 transition">
-                    <i class="fa-solid fa-user-shield text-blue-600"></i>
+                <button onclick="toggleRescueOfficerMode()" id="officer-mode-btn" class="px-2 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold border border-slate-300 flex items-center gap-1 transition active:scale-95">
+                    <i class="fa-solid fa-user-shield text-blue-600 text-[11px]"></i>
                     <span id="officer-btn-text" class="hidden sm:inline">เจ้าหน้าที่</span>
                 </button>
-                <div id="header-status-badge" class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold border border-emerald-200">
+                <div id="header-status-badge" class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold border border-emerald-200 shadow-sm">
                     <span id="header-status-dot" class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span id="header-status-text">ปกติ</span>
                 </div>
@@ -173,7 +199,7 @@
         </div>
     </header>
 
-    <!-- SUPER ADMIN CONTROL PANEL (Hidden by Default) -->
+    <!-- SUPER ADMIN CONTROL PANEL -->
     <div id="super-admin-panel" class="max-w-md mx-auto px-3 pt-2.5 hidden animate-fade-in">
         <div class="bg-slate-950 text-white p-4 rounded-3xl border-2 border-amber-400 shadow-2xl space-y-3.5 relative overflow-hidden">
             <div class="flex items-center justify-between border-b border-amber-400/30 pb-2.5">
@@ -183,7 +209,7 @@
                     </div>
                     <div>
                         <h3 class="font-extrabold text-xs text-amber-300 uppercase tracking-wider">แผงควบคุมแอดมินสูงสุด (SUPER ADMIN)</h3>
-                        <p class="text-[9px] text-slate-400">จัดการระบบ เซิร์ฟเวอร์ และข้อมูลทั้งหมด</p>
+                        <p class="text-[9px] text-slate-400">จัดการระบบ เซิร์ฟเวอร์ พารามิเตอร์ และเบอร์โทร</p>
                     </div>
                 </div>
                 <button onclick="logoutSuperAdmin()" class="text-[10px] bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 rounded-lg font-bold transition">
@@ -191,11 +217,11 @@
                 </button>
             </div>
 
-            <!-- Global Stats Overview -->
+            <!-- Stats Overview -->
             <div class="grid grid-cols-3 gap-2 text-center text-xs">
                 <div class="bg-slate-900 p-2 rounded-2xl border border-slate-800">
-                    <p class="text-[9px] text-slate-400">ผู้เข้าชมวันนี้</p>
-                    <p class="text-sm font-extrabold text-amber-400" id="admin-stat-views">1,420</p>
+                    <p class="text-[9px] text-slate-400">ผู้เข้าชมระบบ</p>
+                    <p class="text-sm font-extrabold text-amber-400" id="admin-stat-views">1,482</p>
                 </div>
                 <div class="bg-slate-900 p-2 rounded-2xl border border-slate-800">
                     <p class="text-[9px] text-slate-400">คำขอ SOS</p>
@@ -207,10 +233,10 @@
                 </div>
             </div>
 
-            <!-- Master System Control Tools -->
+            <!-- Controls -->
             <div class="space-y-2 text-xs">
                 <h4 class="font-bold text-amber-300 text-[11px] flex items-center gap-1.5">
-                    <i class="fa-solid fa-sliders"></i> จัดการพารามิเตอร์และตัวเลขระบบ
+                    <i class="fa-solid fa-sliders"></i> ตั้งค่าพารามิเตอร์ระบบ
                 </h4>
                 
                 <div class="grid grid-cols-2 gap-2">
@@ -231,25 +257,35 @@
                 </div>
 
                 <div class="pt-2 border-t border-slate-800">
-                    <label class="block text-[10px] text-slate-400 mb-1">ส่งข้อความบรอดแคสต์ฉุกเฉินถึงทุกคน (Push Notification)</label>
+                    <label class="block text-[10px] text-slate-400 mb-1">ส่งข่าวด่วนฉุกเฉินถึงชาวบ้าน (Push Broadcast)</label>
                     <div class="flex gap-1.5">
-                        <input type="text" id="admin-broadcast-msg" placeholder="ข้อความแจ้งเตือนด่วนกระทันหัน..." class="flex-1 p-2 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs">
+                        <input type="text" id="admin-broadcast-msg" placeholder="ข้อความแจ้งเตือนด่วน..." class="flex-1 p-2 bg-slate-900 border border-slate-700 rounded-xl text-white text-xs">
                         <button onclick="adminSendBroadcast()" class="px-3 py-2 bg-red-600 hover:bg-red-700 text-white font-extrabold rounded-xl transition whitespace-nowrap">
-                            <i class="fa-solid fa-paper-plane mr-1"></i> ยิงข่าวด่วน
+                            <i class="fa-solid fa-paper-plane mr-1"></i> ยิงประกาศ
                         </button>
                     </div>
                 </div>
 
-                <div class="pt-2 border-t border-slate-800 flex items-center justify-between">
-                    <button onclick="adminExportEvacueesData()" class="w-full p-2 bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold rounded-xl flex items-center justify-center gap-1.5 border border-amber-400/30 transition">
-                        <i class="fa-solid fa-file-csv"></i> ส่งออกข้อมูลผู้อพยพ (Export Data)
-                    </button>
+                <!-- Export Options -->
+                <div class="pt-2 border-t border-slate-800 space-y-1.5">
+                    <label class="block text-[10px] text-slate-400">ส่งออกข้อมูลผู้อพยพ (Export Evacuees Data)</label>
+                    <div class="grid grid-cols-3 gap-1.5">
+                        <button onclick="adminExportEvacuees('csv')" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-amber-300 text-[11px] font-bold rounded-xl border border-amber-400/30 transition flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-file-csv"></i> CSV
+                        </button>
+                        <button onclick="adminExportEvacuees('json')" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-amber-300 text-[11px] font-bold rounded-xl border border-amber-400/30 transition flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-code"></i> JSON
+                        </button>
+                        <button onclick="adminExportEvacuees('text')" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-amber-300 text-[11px] font-bold rounded-xl border border-amber-400/30 transition flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-file-lines"></i> Text
+                        </button>
+                    </div>
                 </div>
 
-                <!-- ADD NEW EMERGENCY CONTACT FORM FOR SUPER ADMIN -->
+                <!-- ADD NEW EMERGENCY CONTACT FORM -->
                 <div class="pt-2 border-t border-slate-800 space-y-1.5">
                     <h5 class="font-bold text-amber-300 text-[11px] flex items-center gap-1">
-                        <i class="fa-solid fa-phone"></i> จัดการเพิ่มเบอร์โทรฉุกเฉิน
+                        <i class="fa-solid fa-phone"></i> เพิ่มเบอร์โทรสายด่วนฉุกเฉิน
                     </h5>
                     <div class="space-y-1">
                         <input type="text" id="admin-add-contact-title" placeholder="ชื่อหน่วยงาน / ตำแหน่ง" class="w-full p-1.5 bg-slate-900 border border-slate-700 rounded-xl text-white text-[11px]">
@@ -266,9 +302,9 @@
         </div>
     </div>
 
-    <!-- RESCUE OFFICER CONTROL PANEL (Hidden by Default) -->
+    <!-- RESCUE OFFICER CONTROL PANEL -->
     <div id="officer-panel" class="max-w-md mx-auto px-3 pt-2.5 hidden animate-fade-in">
-        <div class="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white p-3.5 rounded-2xl border border-amber-400/50 shadow-md space-y-2.5">
+        <div class="bg-gradient-to-r from-slate-900 via-blue-950 to-slate-900 text-white p-3.5 rounded-3xl border border-amber-400/50 shadow-md space-y-2.5">
             <div class="flex items-center justify-between border-b border-white/10 pb-2">
                 <div class="flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-ping"></span>
@@ -288,11 +324,11 @@
                 </button>
             </div>
 
-            <!-- New Announcement Control Box for Officers -->
+            <!-- Announcement Box -->
             <div class="pt-2 border-t border-white/10 text-xs space-y-1.5">
                 <label class="block font-bold text-amber-300 text-[11px] flex items-center justify-between">
                     <span><i class="fa-solid fa-bullhorn mr-1"></i> โพสต์ประกาศข่าวด่วนถึงชาวบ้าน:</span>
-                    <button onclick="clearAnnouncement()" class="text-[10px] text-red-300 hover:underline">ลบประกาศปัจจุบัน</button>
+                    <button onclick="clearAnnouncement()" class="text-[10px] text-red-300 hover:underline">ลบประกาศ</button>
                 </label>
                 <div class="flex gap-1.5">
                     <input type="text" id="officer-announcement-input" placeholder="พิมพ์ข้อความประกาศ..." class="flex-1 p-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-[11px] focus:outline-none focus:border-amber-400">
@@ -302,7 +338,7 @@
                 </div>
             </div>
 
-            <!-- Messenger Link Config Box for Rescue Team -->
+            <!-- Messenger Config Link -->
             <div class="pt-2 border-t border-white/10 text-xs space-y-1.5">
                 <label class="block font-bold text-amber-300 text-[11px] flex items-center gap-1">
                     <i class="fa-brands fa-facebook-messenger"></i> ลิงก์ตรง Messenger ทีมกู้ภัย (m.me link):
@@ -315,16 +351,16 @@
                 </div>
             </div>
 
-            <!-- Manage Canals Box for Rescue Officer -->
+            <!-- Manage Canals Box -->
             <div class="pt-2 border-t border-white/10 text-xs space-y-1.5">
                 <label class="block font-bold text-amber-300 text-[11px] flex items-center gap-1">
-                    <i class="fa-solid fa-water"></i> จัดการเพิ่ม / แก้ไขข้อมูลลำคลอง:
+                    <i class="fa-solid fa-water"></i> เพิ่ม / แก้ไขข้อมูลลำคลอง:
                 </label>
                 <div class="space-y-1">
-                    <input type="text" id="officer-canal-name" placeholder="ชื่อลำคลอง (เช่น คลองอาโลร์ฆือแล)" class="w-full p-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-[11px] focus:outline-none focus:border-amber-400">
-                    <input type="text" id="officer-canal-desc" placeholder="คำอธิบาย/จุดเสี่ยง (เช่น ความจุสูงสุด 2.8m)" class="w-full p-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-[11px] focus:outline-none focus:border-amber-400">
+                    <input type="text" id="officer-canal-name" placeholder="ชื่อลำคลอง (เช่น คลองอาโลร์ฆือแล)" class="w-full p-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-[11px]">
+                    <input type="text" id="officer-canal-desc" placeholder="คำอธิบาย/จุดเสี่ยง (เช่น ความจุสูงสุด 2.8m)" class="w-full p-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-[11px]">
                     <div class="flex gap-1.5">
-                        <input type="text" id="officer-canal-val" placeholder="ระดับน้ำ (เช่น 1.2m (ปกติ))" class="flex-1 p-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-[11px] focus:outline-none focus:border-amber-400">
+                        <input type="text" id="officer-canal-val" placeholder="ระดับน้ำ (เช่น 1.2m (ปกติ))" class="flex-1 p-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-[11px]">
                         <button onclick="officerAddCanal()" class="px-3 py-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-extrabold rounded-xl transition whitespace-nowrap">
                             + เพิ่มคลอง
                         </button>
@@ -332,14 +368,14 @@
                 </div>
             </div>
 
-            <!-- Manage Zone Households Box for Rescue Officer -->
+            <!-- Manage Zone Households Box -->
             <div class="pt-2 border-t border-white/10 text-xs space-y-1.5">
                 <label class="block font-bold text-amber-300 text-[11px] flex items-center gap-1">
-                    <i class="fa-solid fa-house-chimney-crack"></i> จัดการเพิ่มข้อมูลครัวเรือนประจำโซน:
+                    <i class="fa-solid fa-house-chimney-crack"></i> เพิ่มข้อมูลครัวเรือนประจำโซน:
                 </label>
                 <div class="space-y-1">
                     <div class="grid grid-cols-2 gap-1.5">
-                        <select id="officer-add-household-zone" class="p-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-[11px] focus:outline-none focus:border-amber-400">
+                        <select id="officer-add-household-zone" class="p-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-[11px]">
                             <option value="1">โซน 1 - คลอแระมัสยิดกลาง</option>
                             <option value="2">โซน 2 - ฆือลองไอมูรา</option>
                             <option value="3">โซน 3 - ฆือแล</option>
@@ -349,7 +385,7 @@
                             <option value="7">โซน 7 - เขตกูวิง</option>
                             <option value="8">โซน 8 - ถนนสายบ้านผู้ใหญ่</option>
                         </select>
-                        <input type="text" id="officer-add-household-name" placeholder="ชื่อหัวหน้าครัวเรือน / บ้านเลขที่" class="p-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-[11px] focus:outline-none focus:border-amber-400">
+                        <input type="text" id="officer-add-household-name" placeholder="ชื่อหัวหน้าครัวเรือน / บ้านเลขที่" class="p-2 rounded-xl bg-slate-800 border border-slate-700 text-white text-[11px]">
                     </div>
                     <button onclick="officerAddHousehold()" class="w-full py-2 bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-extrabold rounded-xl transition">
                         + บันทึกครัวเรือนเข้าโซน
@@ -362,8 +398,8 @@
     <!-- MAIN APP CONTAINER -->
     <div class="max-w-md mx-auto px-3 pt-3 space-y-3.5">
 
-        <!-- OFFICIAL ANNOUNCEMENT BANNER (Dynamic) -->
-        <div id="announcement-banner" class="bg-gradient-to-r from-amber-500 to-orange-600 text-slate-950 p-3 rounded-2xl shadow-md flex items-start gap-3 border border-amber-400/40 hidden animate-fade-in">
+        <!-- OFFICIAL ANNOUNCEMENT BANNER -->
+        <div id="announcement-banner" class="bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 p-3 rounded-2xl shadow-md flex items-start gap-3 border border-amber-300/60 hidden animate-fade-in">
             <div class="w-8 h-8 rounded-xl bg-slate-950/20 flex items-center justify-center flex-shrink-0 text-slate-950 text-base mt-0.5">
                 <i class="fa-solid fa-bullhorn animate-bounce"></i>
             </div>
@@ -387,20 +423,20 @@
                     <i class="fa-solid fa-shield-halved text-emerald-400"></i>
                     <span>ศูนย์อุทกวิทยาชุมชนบ้านคลอแระ</span>
                 </div>
-                <span id="live-time-str" class="text-[10px] text-blue-200/90 font-mono">
-                    <i class="fa-regular fa-calendar-days mr-0.5"></i> กำลังโหลดวันที่และเวลา...
+                <span id="live-time-str" class="text-[10px] text-cyan-200/90 font-mono">
+                    <i class="fa-regular fa-calendar-days mr-0.5"></i> กำลังโหลด...
                 </span>
             </div>
 
-            <p class="text-xs text-blue-200/80 font-medium">สถานการณ์น้ำปัจจุบัน หมู่บ้านคลอแระ</p>
+            <p class="text-xs text-blue-200/80 font-medium">สถานการณ์น้ำปัจจุบัน หมู่บ้านคลอแระ หมู่ 3</p>
 
             <!-- Status Text + Vertical Water Meter Gauge Grid -->
-            <div class="flex items-start justify-between my-2">
+            <div class="flex items-start justify-between my-2.5">
                 <div class="space-y-2 flex-1 pr-2">
                     <h2 id="hero-status-title" class="text-4xl font-extrabold text-emerald-400 tracking-tight transition-all">ปกติ</h2>
                     
                     <div class="glass-subcard px-3 py-2 rounded-2xl inline-block max-w-[210px]">
-                        <span id="hero-level-tag" class="inline-block px-2 py-0.5 rounded-md bg-emerald-500 text-white text-[10px] font-bold mb-1">
+                        <span id="hero-level-tag" class="inline-block px-2 py-0.5 rounded-md bg-emerald-500 text-white text-[10px] font-bold mb-1 shadow">
                             ระดับ 1/4
                         </span>
                         <p id="hero-status-subdesc" class="text-xs font-semibold text-white leading-tight">
@@ -423,7 +459,9 @@
                             <div class="gauge-tick-line"></div>
                             <span class="text-[8px] text-slate-300 font-mono">0.0m</span>
                         </div>
-                        <div id="vertical-gauge-fill" class="gauge-fill bg-emerald-500" style="height: 35%;"></div>
+                        <div id="vertical-gauge-fill" class="gauge-fill bg-emerald-500" style="height: 35%;">
+                            <div class="wave-animation"></div>
+                        </div>
                     </div>
                     <span id="gauge-percent-text" class="text-[10px] font-bold text-slate-300 font-mono mt-1">35%</span>
                 </div>
@@ -452,7 +490,7 @@
 
             <!-- Red SOS Emergency Action Button -->
             <div class="mt-4">
-                <button onclick="openSosModal()" class="w-full pulse-sos bg-gradient-to-r from-red-500 via-red-600 to-rose-600 hover:from-red-600 hover:to-rose-700 text-white p-3.5 rounded-2xl shadow-lg flex items-center justify-between transition transform active:scale-95">
+                <button onclick="openSosModal()" class="w-full pulse-sos bg-gradient-to-r from-red-500 via-rose-600 to-red-600 hover:from-red-600 hover:to-rose-700 text-white p-3.5 rounded-2xl shadow-glow-red flex items-center justify-between transition transform active:scale-95 border border-red-400/40">
                     <div class="flex items-center gap-3">
                         <div class="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center text-xl flex-shrink-0">
                             <i class="fa-solid fa-life-ring animate-spin" style="animation-duration: 8s;"></i>
@@ -466,10 +504,10 @@
                 </button>
             </div>
 
-            <!-- Secondary Quick Action Buttons -->
+            <!-- Quick Action Tabs Shortcut Buttons -->
             <div class="grid grid-cols-2 gap-2 mt-2.5">
                 <button onclick="switchBottomTab('overview')" class="glass-subcard hover:bg-white/15 active:scale-95 text-white py-2.5 px-3 rounded-2xl text-xs font-semibold flex items-center justify-center gap-2 transition">
-                    <i class="fa-solid fa-water text-blue-300"></i> สถานการณ์น้ำ 3 คลอง
+                    <i class="fa-solid fa-water text-cyan-300"></i> สถานการณ์น้ำ 3 คลอง
                 </button>
                 <button onclick="switchBottomTab('shelter')" class="glass-subcard hover:bg-white/15 active:scale-95 text-white py-2.5 px-3 rounded-2xl text-xs font-semibold flex items-center justify-center gap-2 transition">
                     <i class="fa-solid fa-house-chimney-user text-emerald-300"></i> ศูนย์อพยพ / รายชื่อ
@@ -486,7 +524,7 @@
             
             <div class="grid grid-cols-2 gap-2">
                 <!-- Level 1 -->
-                <div id="btn-lvl-1" onclick="setSimLevel('normal')" class="cursor-pointer bg-white p-3 rounded-2xl border-2 border-emerald-400 shadow-sm flex items-start gap-2.5 hover:bg-emerald-50/50 transition active:scale-95">
+                <div id="btn-lvl-1" onclick="setSimLevel('normal')" class="cursor-pointer bg-white p-3 rounded-2xl border-2 border-emerald-500 shadow-sm flex items-start gap-2.5 hover:bg-emerald-50/50 transition active:scale-95">
                     <div class="w-7 h-7 rounded-full bg-emerald-500 text-white flex items-center justify-center font-bold text-xs flex-shrink-0 shadow">1</div>
                     <div>
                         <h4 class="font-bold text-xs text-emerald-700">1. ปกติ</h4>
@@ -529,55 +567,58 @@
         <div id="tab-overview" class="tab-pane space-y-3">
             
             <!-- Canals Status Header & Details -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-3">
+            <div class="bg-white p-4 rounded-3xl shadow-sm border border-slate-200/80 space-y-3">
                 <div class="flex items-center justify-between">
                     <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
                         <i class="fa-solid fa-water text-blue-600"></i> ระดับน้ำ 3 คลองสำคัญประจำหมู่บ้าน
                     </h3>
-                    <span class="text-[10px] text-slate-400 font-mono">อัปเดตเรียลไทม์</span>
+                    <span id="sync-status-indicator" class="text-[10px] text-emerald-600 font-mono font-semibold flex items-center gap-1">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                        อัปเดตอัตโนมัติทุก 30 นาที
+                    </span>
                 </div>
 
                 <div id="canals-list-container" class="space-y-2 text-xs">
-                    <div class="canal-item p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
+                    <div class="canal-item p-3 bg-slate-50 rounded-2xl border border-slate-200/80 flex justify-between items-center transition hover:border-slate-300">
                         <div>
                             <p class="font-bold text-slate-800 canal-name-text">1. คลองอาโลร์ฆือแล (สายหลัก)</p>
                             <p class="text-[10px] text-slate-500 canal-desc-text">ความจุสูงสุด 2.8 เมตร | จุดเสี่ยงปอเนาะฆือแล</p>
                         </div>
                         <div class="flex items-center gap-1.5">
-                            <span class="canal-val-badge px-2 py-1 rounded-md bg-emerald-100 text-emerald-800 font-bold text-[10px]">1.2m (ปกติ)</span>
-                            <button onclick="officerEditCanal(this)" class="officer-canal-ctrl-btn hidden text-blue-600 hover:text-blue-800 text-[11px] font-bold px-1"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="officerDeleteCanal(this)" class="officer-canal-ctrl-btn hidden text-red-600 hover:text-red-800 text-[11px] font-bold px-1"><i class="fa-solid fa-trash-can"></i></button>
+                            <span class="canal-val-badge px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-[10px]">1.2m (ปกติ)</span>
+                            <button onclick="officerEditCanal(this)" class="officer-canal-ctrl-btn hidden text-blue-600 hover:text-blue-800 text-xs font-bold px-1"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="officerDeleteCanal(this)" class="officer-canal-ctrl-btn hidden text-red-600 hover:text-red-800 text-xs font-bold px-1"><i class="fa-solid fa-trash-can"></i></button>
                         </div>
                     </div>
 
-                    <div class="canal-item p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
+                    <div class="canal-item p-3 bg-slate-50 rounded-2xl border border-slate-200/80 flex justify-between items-center transition hover:border-slate-300">
                         <div>
                             <p class="font-bold text-slate-800 canal-name-text">2. คลองจาแบปะ (จุดระบายน้ำ)</p>
                             <p class="text-[10px] text-slate-500 canal-desc-text">รับน้ำจากเทือกเขาบูโด | ลุ่มต่ำสุด</p>
                         </div>
                         <div class="flex items-center gap-1.5">
-                            <span class="canal-val-badge px-2 py-1 rounded-md bg-emerald-100 text-emerald-800 font-bold text-[10px]">0.9m (ปกติ)</span>
-                            <button onclick="officerEditCanal(this)" class="officer-canal-ctrl-btn hidden text-blue-600 hover:text-blue-800 text-[11px] font-bold px-1"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="officerDeleteCanal(this)" class="officer-canal-ctrl-btn hidden text-red-600 hover:text-red-800 text-[11px] font-bold px-1"><i class="fa-solid fa-trash-can"></i></button>
+                            <span class="canal-val-badge px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-[10px]">0.9m (ปกติ)</span>
+                            <button onclick="officerEditCanal(this)" class="officer-canal-ctrl-btn hidden text-blue-600 hover:text-blue-800 text-xs font-bold px-1"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="officerDeleteCanal(this)" class="officer-canal-ctrl-btn hidden text-red-600 hover:text-red-800 text-xs font-bold px-1"><i class="fa-solid fa-trash-can"></i></button>
                         </div>
                     </div>
 
-                    <div class="canal-item p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
+                    <div class="canal-item p-3 bg-slate-50 rounded-2xl border border-slate-200/80 flex justify-between items-center transition hover:border-slate-300">
                         <div>
                             <p class="font-bold text-slate-800 canal-name-text">3. คลองฆือลองไอมูรา</p>
                             <p class="text-[10px] text-slate-500 canal-desc-text">สายรับน้ำเข้าทุ่งนา ม.3</p>
                         </div>
                         <div class="flex items-center gap-1.5">
-                            <span class="canal-val-badge px-2 py-1 rounded-md bg-emerald-100 text-emerald-800 font-bold text-[10px]">0.7m (ปกติ)</span>
-                            <button onclick="officerEditCanal(this)" class="officer-canal-ctrl-btn hidden text-blue-600 hover:text-blue-800 text-[11px] font-bold px-1"><i class="fa-solid fa-pen"></i></button>
-                            <button onclick="officerDeleteCanal(this)" class="officer-canal-ctrl-btn hidden text-red-600 hover:text-red-800 text-[11px] font-bold px-1"><i class="fa-solid fa-trash-can"></i></button>
+                            <span class="canal-val-badge px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-[10px]">0.7m (ปกติ)</span>
+                            <button onclick="officerEditCanal(this)" class="officer-canal-ctrl-btn hidden text-blue-600 hover:text-blue-800 text-xs font-bold px-1"><i class="fa-solid fa-pen"></i></button>
+                            <button onclick="officerDeleteCanal(this)" class="officer-canal-ctrl-btn hidden text-red-600 hover:text-red-800 text-xs font-bold px-1"><i class="fa-solid fa-trash-can"></i></button>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Pre-Flood Preparation Tips -->
-            <div class="bg-blue-50/70 p-4 rounded-2xl border border-blue-200 space-y-2 text-xs">
+            <div class="bg-blue-50/80 p-4 rounded-3xl border border-blue-200 space-y-2 text-xs">
                 <h4 class="font-bold text-blue-950 flex items-center gap-1.5">
                     <i class="fa-solid fa-kit-medical text-blue-600"></i> ข้อควรปฏิบัติเพื่อความปลอดภัย
                 </h4>
@@ -592,16 +633,16 @@
 
         <!-- TAB 2: MAP & RISK ZONES -->
         <div id="tab-map" class="tab-pane space-y-3 hidden">
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-3">
+            <div class="bg-white p-4 rounded-3xl shadow-sm border border-slate-200/80 space-y-3">
                 <div class="flex items-center justify-between">
                     <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
                         <i class="fa-solid fa-map-location-dot text-emerald-600"></i> ผังโซนพื้นที่เสี่ยง 8 โซน บ้านคลอแระ
                     </h3>
                 </div>
 
-                <div class="space-y-2 text-xs">
+                <div class="space-y-2.5 text-xs">
                     <!-- Zone 1 -->
-                    <div id="zone-card-1" class="p-2.5 bg-red-50 border border-red-200 rounded-xl space-y-2 zone-card">
+                    <div id="zone-card-1" class="p-3 bg-red-50 border border-red-200 rounded-2xl space-y-2 zone-card">
                         <div class="flex justify-between items-center">
                             <div>
                                 <div class="flex items-center gap-1.5">
@@ -612,10 +653,10 @@
                                 </div>
                                 <p class="text-[10px] text-red-700 zone-desc-text">พื้นที่ลุ่มต่ำริมคลอง | <span id="zone-count-1">1</span> ครัวเรือน</p>
                             </div>
-                            <span class="zone-risk-badge px-2 py-1 bg-red-600 text-white font-bold rounded-md text-[10px]">เสี่ยงสูงมาก</span>
+                            <span class="zone-risk-badge px-2 py-1 bg-red-600 text-white font-bold rounded-lg text-[10px]">เสี่ยงสูงมาก</span>
                         </div>
-                        <div id="zone-households-1" class="space-y-1 text-[11px] pt-1 border-t border-red-200/60">
-                            <div class="household-item flex justify-between items-center bg-white/70 px-2 py-1 rounded border border-red-100">
+                        <div id="zone-households-1" class="space-y-1 text-[11px] pt-1.5 border-t border-red-200/60">
+                            <div class="household-item flex justify-between items-center bg-white/80 px-2.5 py-1 rounded-xl border border-red-100">
                                 <span>บ้านเลขที่ 12/1 (นายอับดุลเลาะห์ สาแม)</span>
                                 <button onclick="officerDeleteHousehold(this, 1)" class="officer-delete-hh-btn hidden text-[10px] text-red-600 hover:underline font-bold">ลบ</button>
                             </div>
@@ -623,7 +664,7 @@
                     </div>
 
                     <!-- Zone 2 -->
-                    <div id="zone-card-2" class="p-2.5 bg-red-50 border border-red-200 rounded-xl space-y-2 zone-card">
+                    <div id="zone-card-2" class="p-3 bg-red-50 border border-red-200 rounded-2xl space-y-2 zone-card">
                         <div class="flex justify-between items-center">
                             <div>
                                 <div class="flex items-center gap-1.5">
@@ -634,10 +675,10 @@
                                 </div>
                                 <p class="text-[10px] text-red-700 zone-desc-text">ติดลำน้ำรับน้ำทุ่งนา | <span id="zone-count-2">1</span> ครัวเรือน</p>
                             </div>
-                            <span class="zone-risk-badge px-2 py-1 bg-red-600 text-white font-bold rounded-md text-[10px]">เสี่ยงสูงมาก</span>
+                            <span class="zone-risk-badge px-2 py-1 bg-red-600 text-white font-bold rounded-lg text-[10px]">เสี่ยงสูงมาก</span>
                         </div>
-                        <div id="zone-households-2" class="space-y-1 text-[11px] pt-1 border-t border-red-200/60">
-                            <div class="household-item flex justify-between items-center bg-white/70 px-2 py-1 rounded border border-red-100">
+                        <div id="zone-households-2" class="space-y-1 text-[11px] pt-1.5 border-t border-red-200/60">
+                            <div class="household-item flex justify-between items-center bg-white/80 px-2.5 py-1 rounded-xl border border-red-100">
                                 <span>บ้านเลขที่ 45 (นายมะยูโซ๊ะ อีซอ)</span>
                                 <button onclick="officerDeleteHousehold(this, 2)" class="officer-delete-hh-btn hidden text-[10px] text-red-600 hover:underline font-bold">ลบ</button>
                             </div>
@@ -645,7 +686,7 @@
                     </div>
 
                     <!-- Zone 3 -->
-                    <div id="zone-card-3" class="p-2.5 bg-amber-50 border border-amber-200 rounded-xl space-y-2 zone-card">
+                    <div id="zone-card-3" class="p-3 bg-amber-50 border border-amber-200 rounded-2xl space-y-2 zone-card">
                         <div class="flex justify-between items-center">
                             <div>
                                 <div class="flex items-center gap-1.5">
@@ -656,13 +697,13 @@
                                 </div>
                                 <p class="text-[10px] text-amber-700 zone-desc-text">พื้นที่แอ่งกะทะ | <span id="zone-count-3">0</span> ครัวเรือน</p>
                             </div>
-                            <span class="zone-risk-badge px-2 py-1 bg-amber-500 text-white font-bold rounded-md text-[10px]">เสี่ยงปานกลาง</span>
+                            <span class="zone-risk-badge px-2 py-1 bg-amber-500 text-white font-bold rounded-lg text-[10px]">เสี่ยงปานกลาง</span>
                         </div>
-                        <div id="zone-households-3" class="space-y-1 text-[11px] pt-1 border-t border-amber-200/60"></div>
+                        <div id="zone-households-3" class="space-y-1 text-[11px] pt-1.5 border-t border-amber-200/60"></div>
                     </div>
 
                     <!-- Zone 4 -->
-                    <div id="zone-card-4" class="p-2.5 bg-amber-50 border border-amber-200 rounded-xl space-y-2 zone-card">
+                    <div id="zone-card-4" class="p-3 bg-amber-50 border border-amber-200 rounded-2xl space-y-2 zone-card">
                         <div class="flex justify-between items-center">
                             <div>
                                 <div class="flex items-center gap-1.5">
@@ -673,13 +714,13 @@
                                 </div>
                                 <p class="text-[10px] text-amber-700 zone-desc-text">ทางน้ำไหลผ่าน | <span id="zone-count-4">0</span> ครัวเรือน</p>
                             </div>
-                            <span class="zone-risk-badge px-2 py-1 bg-amber-500 text-white font-bold rounded-md text-[10px]">เสี่ยงปานกลาง</span>
+                            <span class="zone-risk-badge px-2 py-1 bg-amber-500 text-white font-bold rounded-lg text-[10px]">เสี่ยงปานกลาง</span>
                         </div>
-                        <div id="zone-households-4" class="space-y-1 text-[11px] pt-1 border-t border-amber-200/60"></div>
+                        <div id="zone-households-4" class="space-y-1 text-[11px] pt-1.5 border-t border-amber-200/60"></div>
                     </div>
 
                     <!-- Zone 5 -->
-                    <div id="zone-card-5" class="p-2.5 bg-amber-50 border border-amber-200 rounded-xl space-y-2 zone-card">
+                    <div id="zone-card-5" class="p-3 bg-amber-50 border border-amber-200 rounded-2xl space-y-2 zone-card">
                         <div class="flex justify-between items-center">
                             <div>
                                 <div class="flex items-center gap-1.5">
@@ -690,13 +731,13 @@
                                 </div>
                                 <p class="text-[10px] text-amber-700 zone-desc-text">ใกล้นาข้าวและลำห้วย | <span id="zone-count-5">0</span> ครัวเรือน</p>
                             </div>
-                            <span class="zone-risk-badge px-2 py-1 bg-amber-500 text-white font-bold rounded-md text-[10px]">เสี่ยงปานกลาง</span>
+                            <span class="zone-risk-badge px-2 py-1 bg-amber-500 text-white font-bold rounded-lg text-[10px]">เสี่ยงปานกลาง</span>
                         </div>
-                        <div id="zone-households-5" class="space-y-1 text-[11px] pt-1 border-t border-amber-200/60"></div>
+                        <div id="zone-households-5" class="space-y-1 text-[11px] pt-1.5 border-t border-amber-200/60"></div>
                     </div>
 
                     <!-- Zone 6, 7, 8 -->
-                    <div id="zone-card-6" class="p-2.5 bg-slate-100 border border-slate-200 rounded-xl space-y-2 zone-card">
+                    <div id="zone-card-6" class="p-3 bg-slate-50 border border-slate-200 rounded-2xl space-y-2 zone-card">
                         <div class="flex justify-between items-center">
                             <div>
                                 <div class="flex items-center gap-1.5">
@@ -707,9 +748,9 @@
                                 </div>
                                 <p class="text-[10px] text-slate-500 zone-desc-text">พื้นที่ดอน | ปลอดภัยสูง | <span id="zone-count-6">0</span> ครัวเรือน</p>
                             </div>
-                            <span class="zone-risk-badge px-2 py-1 bg-emerald-600 text-white font-bold rounded-md text-[10px]">เสี่ยงต่ำ</span>
+                            <span class="zone-risk-badge px-2 py-1 bg-emerald-600 text-white font-bold rounded-lg text-[10px]">เสี่ยงต่ำ</span>
                         </div>
-                        <div id="zone-households-6" class="space-y-1 text-[11px] pt-1 border-t border-slate-200"></div>
+                        <div id="zone-households-6" class="space-y-1 text-[11px] pt-1.5 border-t border-slate-200"></div>
                     </div>
                 </div>
             </div>
@@ -719,32 +760,32 @@
         <div id="tab-shelter" class="tab-pane space-y-3 hidden">
             
             <!-- Shelter Locations -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-3">
+            <div class="bg-white p-4 rounded-3xl shadow-sm border border-slate-200/80 space-y-3">
                 <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
                     <i class="fa-solid fa-house-chimney-user text-purple-600"></i> ศูนย์พักพิงชั่วคราวหลัก
                 </h3>
 
                 <div class="space-y-2 text-xs">
-                    <div class="p-3 bg-purple-50 border border-purple-200 rounded-xl space-y-1">
+                    <div class="p-3 bg-purple-50 border border-purple-200 rounded-2xl space-y-1">
                         <div class="flex justify-between items-center font-bold text-purple-950">
                             <span>1. โรงเรียนบ้านคลอแระ (ศูนย์หลัก)</span>
-                            <span class="text-[10px] bg-purple-200 text-purple-900 px-2 py-0.5 rounded-full">รองรับ 150 คน</span>
+                            <span class="text-[10px] bg-purple-200 text-purple-900 px-2 py-0.5 rounded-full font-semibold">รองรับ 150 คน</span>
                         </div>
                         <p class="text-[10px] text-purple-800">จุดประกอบอาหาร / ทีมแพทย์พยาบาลเคลื่อนที่</p>
                     </div>
 
-                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl space-y-1">
                         <div class="flex justify-between items-center font-bold text-slate-900">
                             <span>2. ปอเนาะฆือแล</span>
-                            <span class="text-[10px] bg-slate-200 text-slate-800 px-2 py-0.5 rounded-full">รองรับ 80 คน</span>
+                            <span class="text-[10px] bg-slate-200 text-slate-800 px-2 py-0.5 rounded-full font-semibold">รองรับ 80 คน</span>
                         </div>
                         <p class="text-[10px] text-slate-600">จุดพักพิงสำรองโซนบน</p>
                     </div>
 
-                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-xl space-y-1">
+                    <div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl space-y-1">
                         <div class="flex justify-between items-center font-bold text-slate-900">
                             <span>3. โรงเรียนตาดีกาบ้านคลอแระ</span>
-                            <span class="text-[10px] bg-slate-200 text-slate-800 px-2 py-0.5 rounded-full">รองรับ 60 คน</span>
+                            <span class="text-[10px] bg-slate-200 text-slate-800 px-2 py-0.5 rounded-full font-semibold">รองรับ 60 คน</span>
                         </div>
                         <p class="text-[10px] text-slate-600">จุดคัดกรองและกระจายถุงยังชีพ</p>
                     </div>
@@ -752,170 +793,79 @@
             </div>
 
             <!-- Evacuee List Search Section -->
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-3">
+            <div class="bg-white p-4 rounded-3xl shadow-sm border border-slate-200/80 space-y-3">
                 <div class="flex items-center justify-between">
                     <h3 class="font-bold text-slate-900 text-sm flex items-center gap-1.5">
                         <i class="fa-solid fa-users text-blue-600"></i> รายชื่อผู้อพยพในศูนย์พักพิง
                     </h3>
-                    <span id="evacuee-count-badge" class="bg-blue-100 text-blue-800 text-[10px] font-extrabold px-2 py-0.5 rounded-full">
+                    <span id="evacuee-count-badge" class="bg-blue-100 text-blue-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full">
                         3 คน
                     </span>
                 </div>
 
                 <!-- Search Input -->
                 <div class="relative">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-2.5 text-slate-400 text-xs"></i>
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-slate-400 text-xs"></i>
                     <input type="text" id="evacuee-search" onkeyup="filterEvacuees()" placeholder="ค้นหาชื่อ, เบอร์โทร หรือโซนบ้าน..." class="w-full pl-8 pr-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs focus:outline-none focus:border-blue-500">
                 </div>
 
                 <!-- Evacuees Cards List -->
-                <div id="evacuees-list" class="space-y-2 max-h-72 overflow-y-auto pr-1">
-                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs flex justify-between items-center evacuee-item">
-                        <div>
-                            <div class="flex items-center gap-1.5">
-                                <span class="font-bold text-slate-800">นายมะตาเฮ เลาะ</span>
-                                <span class="bg-purple-100 text-purple-800 text-[9px] font-bold px-1.5 py-0.2 rounded">ผู้สูงอายุ</span>
-                            </div>
-                            <p class="text-[10px] text-slate-500">มาจาก: โซน 1 มัสยิดกลาง | พักที่: รร.บ้านคลอแระ</p>
-                            <p class="text-[10px] text-emerald-700 font-semibold">ติดต่อ: 084-555-1234</p>
+            <div id="evacuees-list" class="space-y-2 max-h-72 overflow-y-auto pr-1">
+                <div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs flex justify-between items-center evacuee-item transition hover:border-slate-300">
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="font-bold text-slate-800">นายมะตาเฮ เลาะ</span>
+                            <span class="bg-purple-100 text-purple-800 text-[9px] font-bold px-1.5 py-0.2 rounded">ผู้สูงอายุ</span>
                         </div>
+                        <p class="text-[10px] text-slate-500">มาจาก: โซน 1 มัสยิดกลาง | พักที่: รร.บ้านคลอแระ</p>
+                        <p class="text-[10px] text-emerald-700 font-semibold">ติดต่อ: 084-555-1234</p>
+                    </div>
+                    <div class="flex flex-col items-end gap-1">
                         <span class="text-[9px] bg-slate-200 text-slate-700 px-2 py-1 rounded-md font-bold whitespace-nowrap">อาคาร 1</span>
+                        <button onclick="officerDeleteEvacuee(this)" class="officer-delete-evac-btn hidden text-[10px] text-red-600 hover:text-red-700 hover:underline font-bold transition">
+                            <i class="fa-solid fa-trash-can mr-0.5"></i> ลบ
+                        </button>
                     </div>
+                </div>
 
-                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs flex justify-between items-center evacuee-item">
-                        <div>
-                            <div class="flex items-center gap-1.5">
-                                <span class="font-bold text-slate-800">นางมีนะห์ สาแม</span>
-                                <span class="bg-red-100 text-red-800 text-[9px] font-bold px-1.5 py-0.2 rounded">ผู้ป่วย</span>
-                            </div>
-                            <p class="text-[10px] text-slate-500">มาจาก: โซน 2 ฆือลองไอมูรา | พักที่: รร.บ้านคลอแระ</p>
-                            <p class="text-[10px] text-emerald-700 font-semibold">ติดต่อ: 089-112-9988</p>
+                <div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs flex justify-between items-center evacuee-item transition hover:border-slate-300">
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="font-bold text-slate-800">นางมีนะห์ สาแม</span>
+                            <span class="bg-red-100 text-red-800 text-[9px] font-bold px-1.5 py-0.2 rounded">ผู้ป่วย</span>
                         </div>
+                        <p class="text-[10px] text-slate-500">มาจาก: โซน 2 ฆือลองไอมูรา | พักที่: รร.บ้านคลอแระ</p>
+                        <p class="text-[10px] text-emerald-700 font-semibold">ติดต่อ: 089-112-9988</p>
+                    </div>
+                    <div class="flex flex-col items-end gap-1">
                         <span class="text-[9px] bg-slate-200 text-slate-700 px-2 py-1 rounded-md font-bold whitespace-nowrap">อาคาร 2</span>
+                        <button onclick="officerDeleteEvacuee(this)" class="officer-delete-evac-btn hidden text-[10px] text-red-600 hover:text-red-700 hover:underline font-bold transition">
+                            <i class="fa-solid fa-trash-can mr-0.5"></i> ลบ
+                        </button>
                     </div>
+                </div>
 
-                    <div class="p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs flex justify-between items-center evacuee-item">
-                        <div>
-                            <div class="flex items-center gap-1.5">
-                                <span class="font-bold text-slate-800">ด.ช.อารีฟัน ยูโซ๊ะ</span>
-                                <span class="bg-blue-100 text-blue-800 text-[9px] font-bold px-1.5 py-0.2 rounded">เด็ก</span>
-                            </div>
-                            <p class="text-[10px] text-slate-500">มาจาก: โซน 3 ฆือแล | พักที่: ปอเนาะฆือแล</p>
-                            <p class="text-[10px] text-emerald-700 font-semibold">ติดต่อ: 081-009-2233</p>
+                <div class="p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs flex justify-between items-center evacuee-item transition hover:border-slate-300">
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <span class="font-bold text-slate-800">ด.ช.อารีฟัน ยูโซ๊ะ</span>
+                            <span class="bg-blue-100 text-blue-800 text-[9px] font-bold px-1.5 py-0.2 rounded">เด็ก</span>
                         </div>
+                        <p class="text-[10px] text-slate-500">มาจาก: โซน 3 ฆือแล | พักที่: ปอเนาะฆือแล</p>
+                        <p class="text-[10px] text-emerald-700 font-semibold">ติดต่อ: 081-009-2233</p>
+                    </div>
+                    <div class="flex flex-col items-end gap-1">
                         <span class="text-[9px] bg-slate-200 text-slate-700 px-2 py-1 rounded-md font-bold whitespace-nowrap">ห้องพัก A</span>
+                        <button onclick="officerDeleteEvacuee(this)" class="officer-delete-evac-btn hidden text-[10px] text-red-600 hover:text-red-700 hover:underline font-bold transition">
+                            <i class="fa-solid fa-trash-can mr-0.5"></i> ลบ
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
-
-        <!-- TAB 4: EMERGENCY CONTACTS -->
-        <div id="tab-contacts" class="tab-pane space-y-3 hidden">
-            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200/80 space-y-3">
-                <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-                    <i class="fa-solid fa-phone-volume text-red-600"></i> เบอร์โทรสายด่วนฉุกเฉิน บ้านคลอแระ
-                </h3>
-
-                <div id="emergency-contacts-list" class="space-y-2 text-xs">
-                    <!-- Contact 1 -->
-                    <div class="contact-item p-3 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
-                        <div>
-                            <p class="font-bold text-slate-900 contact-title">ผู้ใหญ่บ้าน ม.3 บ้านคลอแระ</p>
-                            <p class="text-[10px] text-slate-500 contact-sub">นายกูอามีน กูวิง (แบอามีน)</p>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <a href="tel:0812345678" class="contact-tel-link px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-xs flex items-center gap-1 shadow transition">
-                                <i class="fa-solid fa-phone"></i> โทรเลย
-                            </a>
-                            <button onclick="adminDeleteContact(this)" class="admin-delete-contact-btn hidden px-2 py-1.5 bg-red-100 text-red-600 hover:bg-red-200 rounded-lg font-bold text-xs transition">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Contact 2 -->
-                    <div class="contact-item p-3 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
-                        <div>
-                            <p class="font-bold text-slate-900 contact-title">ทีมกู้ภัยเยาวชนบ้านคลอแระ</p>
-                            <p class="text-[10px] text-slate-500 contact-sub">ศูนย์ประสานงาน SOS 24 ชม.</p>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <a href="tel:0886822347" class="contact-tel-link px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-xs flex items-center gap-1 shadow transition">
-                                <i class="fa-solid fa-phone"></i> โทรเลย
-                            </a>
-                            <button onclick="adminDeleteContact(this)" class="admin-delete-contact-btn hidden px-2 py-1.5 bg-red-100 text-red-600 hover:bg-red-200 rounded-lg font-bold text-xs transition">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Contact 3 -->
-                    <div class="contact-item p-3 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
-                        <div>
-                            <p class="font-bold text-slate-900 contact-title">โรงพยาบาลส่งเสริมสุขภาพ ต.บาเระใต้</p>
-                            <p class="text-[10px] text-slate-500 contact-sub">หน่วยฉุกเฉินทางการแพทย์ รพ.สต.</p>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <a href="tel:073571000" class="contact-tel-link px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold text-xs flex items-center gap-1 shadow transition">
-                                <i class="fa-solid fa-phone"></i> โทรเลย
-                            </a>
-                            <button onclick="adminDeleteContact(this)" class="admin-delete-contact-btn hidden px-2 py-1.5 bg-red-100 text-red-600 hover:bg-red-200 rounded-lg font-bold text-xs transition">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
-                    </div>
-
-                    <!-- Contact 4 -->
-                    <div class="contact-item p-3 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
-                        <div>
-                            <p class="font-bold text-slate-900 contact-title">อบต. บาเระใต้</p>
-                            <p class="text-[10px] text-slate-500 contact-sub">ศูนย์บรรเทาสาธารณภัย อบต.</p>
-                        </div>
-                        <div class="flex items-center gap-1.5">
-                            <a href="tel:073571111" class="contact-tel-link px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-bold text-xs flex items-center gap-1 shadow transition">
-                                <i class="fa-solid fa-phone"></i> โทรเลย
-                            </a>
-                            <button onclick="adminDeleteContact(this)" class="admin-delete-contact-btn hidden px-2 py-1.5 bg-red-100 text-red-600 hover:bg-red-200 rounded-lg font-bold text-xs transition">
-                                <i class="fa-solid fa-trash-can"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- OFFICER LOGIN MODAL POPUP -->
-    <div id="officer-login-modal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl space-y-3.5 relative animate-fade-in">
-            <button onclick="closeOfficerLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-            <div class="text-center">
-                <div class="w-12 h-12 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center text-xl mx-auto mb-1">
-                    <i class="fa-solid fa-user-shield"></i>
-                </div>
-                <h3 class="font-extrabold text-slate-900 text-base">เข้าสู่โหมดเจ้าหน้าที่ / กู้ภัย</h3>
-                <p class="text-xs text-slate-500">กรุณากรอกรหัสผ่านเพื่อเข้าถึงแผงควบคุม</p>
-            </div>
-
-            <form onsubmit="submitOfficerLogin(event)" class="space-y-3 text-xs">
-                <div>
-                    <label class="block font-bold text-slate-700 mb-1">รหัสผ่านเจ้าหน้าที่ *</label>
-                    <input type="password" id="officer-pin-input" required placeholder="กรอกรหัสผ่านเจ้าหน้าที่" class="w-full p-2.5 border border-slate-300 rounded-xl focus:outline-none focus:border-amber-500 text-center text-base tracking-widest font-mono">
-                </div>
-                <p id="officer-login-error" class="text-red-500 text-[11px] text-center font-semibold hidden">
-                    <i class="fa-solid fa-circle-exclamation"></i> รหัสผ่านไม่ถูกต้อง! กรุณาลองใหม่อีกครั้ง
-                </p>
-                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-900 font-extrabold py-2.5 rounded-xl shadow transition text-sm">
-                    ยืนยันเข้าสู่ระบบ
-                </button>
-            </form>
         </div>
     </div>
 
-    <!-- SUPER ADMIN LOGIN MODAL POPUP -->
+    <!-- SUPER ADMIN LOGIN MODAL -->
     <div id="super-admin-login-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
         <div class="bg-slate-900 border-2 border-amber-400/80 w-full max-w-sm rounded-3xl p-5 shadow-2xl space-y-3.5 relative text-white animate-fade-in">
             <button onclick="closeSuperAdminLoginModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg">
@@ -944,7 +894,7 @@
         </div>
     </div>
 
-    <!-- SOS EMERGENCY MODAL POPUP -->
+    <!-- SOS EMERGENCY MODAL -->
     <div id="sos-modal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl space-y-3.5 relative max-h-[90vh] overflow-y-auto animate-fade-in">
             <button onclick="closeSosModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-lg">
@@ -959,7 +909,7 @@
                 <p class="text-xs text-slate-500">ข้อมูลจะถูกส่งเข้า **ทีมกู้ภัยบ้านคลอแระ** ทันที</p>
             </div>
 
-            <!-- Urgent Phone Box inside Modal -->
+            <!-- Urgent Phone Box -->
             <div class="p-2.5 bg-red-50 border border-red-200 rounded-2xl space-y-1.5">
                 <p class="text-[11px] font-bold text-red-800 text-center flex items-center justify-center gap-1">
                     <i class="fa-solid fa-phone-volume animate-bounce"></i> กรณีเร่งด่วนที่สุด! โทรสายตรงกู้ภัย 24 ชม.
@@ -1028,7 +978,7 @@
 
                 <!-- GPS Location Button -->
                 <div class="pt-1">
-                    <button type="button" onclick="getCurrentLocation('sos-coords-text', 'sos-lat', 'sos-lng')" class="w-full bg-slate-100 border border-slate-300 hover:bg-slate-200 text-slate-700 py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 font-bold transition">
+                    <button type="button" onclick="getCurrentLocation('sos-coords-text', 'sos-lat', 'sos-lng')" class="w-full bg-slate-100 border border-slate-300 hover:bg-slate-200 text-slate-700 py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 font-bold transition">
                         <i class="fa-solid fa-location-crosshairs text-blue-600"></i>
                         <span id="sos-coords-text">กดเพื่อระบุพิกัด GPS เรียลไทม์</span>
                     </button>
@@ -1043,7 +993,7 @@
         </div>
     </div>
 
-    <!-- EVACUEE REGISTRATION MODAL POPUP -->
+    <!-- EVACUEE REGISTRATION MODAL -->
     <div id="evacuee-modal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white w-full max-w-sm rounded-3xl p-5 shadow-2xl space-y-3.5 relative max-h-[90vh] overflow-y-auto animate-fade-in">
             <button onclick="closeEvacueeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 text-lg">
@@ -1117,8 +1067,8 @@
         </div>
     </div>
 
-    <!-- BOTTOM APP NAVIGATION BAR -->
-    <nav class="fixed bottom-0 inset-x-0 bg-white border-t border-slate-200 z-40 px-3 py-1.5 shadow-lg">
+    <!-- BOTTOM MOBILE NAVIGATION BAR -->
+    <nav class="fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-slate-200/90 z-40 px-3 py-1.5 shadow-lg">
         <div class="max-w-md mx-auto flex items-center justify-around text-center">
             
             <!-- Tab 1: ภาพรวม -->
@@ -1135,7 +1085,7 @@
 
             <!-- Center Floating SOS Button -->
             <div class="relative -top-5">
-                <button onclick="openSosModal()" class="w-13 h-13 rounded-full bg-gradient-to-tr from-red-600 to-rose-500 text-white flex flex-col items-center justify-center shadow-lg pulse-sos border-4 border-white transition transform active:scale-90">
+                <button onclick="openSosModal()" class="w-13 h-13 w-12 h-12 rounded-full bg-gradient-to-tr from-red-600 to-rose-500 text-white flex flex-col items-center justify-center shadow-lg pulse-sos border-4 border-white transition transform active:scale-90">
                     <i class="fa-solid fa-life-ring text-xl"></i>
                 </button>
                 <span class="block text-[10px] font-extrabold text-red-600 mt-0.5 text-center">แจ้ง SOS</span>
@@ -1158,24 +1108,55 @@
 
     <!-- COMPLETE JAVASCRIPT LOGIC -->
     <script>
-        // State variables
+        // System State variables
         let isOfficerLoggedIn = false;
         let isSuperAdminLoggedIn = false;
         let superAdminKey = "ming90"; // Master Password
         let officerPinCode = "klrteam1234"; // Default Officer Password
         let currentAlertLevel = "normal";
-        let rescueMessengerLink = "https://m.me/klr.rescue"; // Default rescue Messenger link
+        let rescueMessengerLink = "https://m.me/klr.rescue";
         let sosCount = 0;
 
-        // Initialize on page load
+        // On Page Load Initialization
         window.onload = function() {
             setSimLevel('normal');
             updateLiveTime();
-            setInterval(updateLiveTime, 30000); // refresh time every 30s
+            setInterval(updateLiveTime, 1000); // Live real-time clock update
+
+            // Setup Real-time Auto Refresh every 30 minutes (30 * 60 * 1000 ms)
+            setInterval(fetchRealtimeData, 30 * 60 * 1000);
         };
 
-        // SUPER ADMIN FUNCTIONS
-        function openSuperAdminLoginModal() {
+        // Real-time Data Sync (Runs every 30 minutes)
+        function fetchRealtimeData() {
+            const syncStatus = document.getElementById('sync-status-indicator');
+            if (syncStatus) {
+                syncStatus.innerHTML = `<i class="fa-solid fa-arrows-rotate animate-spin text-blue-500 mr-1"></i> กำลังซิงค์ข้อมูล...`;
+            }
+
+            // Simulate Network / API fetch delay
+            setTimeout(() => {
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' });
+
+                // Random small fluctuate for demo/simulation of live water levels & rainfall
+                const canalVals = ['1.2m (ปกติ)', '1.3m (ปกติ)', '1.1m (ปกติ)', '1.4m (เฝ้าระวัง)'];
+                const randomCanalVal = canalVals[Math.floor(Math.random() * canalVals.length)];
+                
+                // Update main canal display if normal
+                if (currentAlertLevel === 'normal') {
+                    const firstCanalVal = document.querySelector('.canal-val-badge');
+                    if (firstCanalVal) firstCanalVal.innerText = randomCanalVal;
+                }
+
+                if (syncStatus) {
+                    syncStatus.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping mr-0.5"></span> ซิงค์ล่าสุด ${timeStr} น.`;
+                }
+            }, 1200);
+        }
+
+        // SUPER ADMIN TOGGLE & MODALS
+        function toggleSuperAdminMode() {
             if (isSuperAdminLoggedIn) {
                 document.getElementById('super-admin-panel').classList.toggle('hidden');
             } else {
@@ -1200,11 +1181,12 @@
                 document.getElementById('admin-btn-text').innerText = "Admin (ออนไลน์)";
                 document.getElementById('admin-mode-btn').className = "px-2 py-1 rounded-full bg-amber-400 text-slate-950 text-xs font-bold border border-amber-500 flex items-center gap-1 shadow transition";
                 
-                // Show delete buttons for contacts, canals & zone edit buttons
+                // Show Control Action Buttons
                 document.querySelectorAll('.admin-delete-contact-btn').forEach(btn => btn.classList.remove('hidden'));
                 document.querySelectorAll('.officer-canal-ctrl-btn').forEach(btn => btn.classList.remove('hidden'));
                 document.querySelectorAll('.officer-zone-edit-btn').forEach(btn => btn.classList.remove('hidden'));
                 document.querySelectorAll('.officer-delete-hh-btn').forEach(btn => btn.classList.remove('hidden'));
+                document.querySelectorAll('.officer-delete-evac-btn').forEach(btn => btn.classList.remove('hidden'));
 
                 alert("เข้าสู่ระบบ Super Admin เรียบร้อยแล้ว!");
             } else {
@@ -1216,20 +1198,66 @@
             if (confirm("ต้องการออกจากระบบ Super Admin หรือไม่?")) {
                 isSuperAdminLoggedIn = false;
                 document.getElementById('super-admin-panel').classList.add('hidden');
-                document.getElementById('admin-btn-text').innerText = "Super Admin";
+                document.getElementById('admin-btn-text').innerText = "Admin";
                 document.getElementById('admin-mode-btn').className = "px-2 py-1 rounded-full bg-slate-800 hover:bg-slate-900 text-amber-300 text-xs font-bold border border-amber-400/40 flex items-center gap-1 transition";
                 
-                // Hide delete buttons if officer is also not logged in
                 if (!isOfficerLoggedIn) {
                     document.querySelectorAll('.admin-delete-contact-btn').forEach(btn => btn.classList.add('hidden'));
                     document.querySelectorAll('.officer-canal-ctrl-btn').forEach(btn => btn.classList.add('hidden'));
                     document.querySelectorAll('.officer-zone-edit-btn').forEach(btn => btn.classList.add('hidden'));
                     document.querySelectorAll('.officer-delete-hh-btn').forEach(btn => btn.classList.add('hidden'));
+                    document.querySelectorAll('.officer-delete-evac-btn').forEach(btn => btn.classList.add('hidden'));
                 }
             }
         }
 
-        // Admin Add New Contact
+        // EXPORT DATA FUNCTIONS
+        function adminExportEvacuees(format) {
+            const items = document.querySelectorAll('.evacuee-item');
+            if (items.length === 0) {
+                alert("ไม่มีข้อมูลผู้อพยพในระบบเพื่อส่งออก");
+                return;
+            }
+
+            let exportContent = "";
+            let filename = `evacuees_klara_${new Date().toISOString().slice(0,10)}`;
+
+            if (format === 'csv') {
+                exportContent = "ชื่อ-นามสกุล,กลุ่มเปราะบาง,มาจากโซน,พักที่ศูนย์,เบอร์โทร,ห้องพัก\n";
+                items.forEach(item => {
+                    const text = item.innerText.replace(/\n/g, ' ');
+                    exportContent += `"${text}"\n`;
+                });
+                downloadFile(exportContent, `${filename}.csv`, 'text/csv');
+            } else if (format === 'json') {
+                let jsonArr = [];
+                items.forEach((item, idx) => {
+                    jsonArr.push({ id: idx + 1, detail: item.innerText.replace(/\n/g, ' ') });
+                });
+                exportContent = JSON.stringify(jsonArr, null, 2);
+                downloadFile(exportContent, `${filename}.json`, 'application/json');
+            } else {
+                exportContent = "=== รายชื่อผู้อพยพ ศูนย์อพยพบ้านคลอแระ ===\n\n";
+                items.forEach((item, idx) => {
+                    exportContent += `${idx + 1}. ${item.innerText.replace(/\n/g, ' ')}\n`;
+                });
+                downloadFile(exportContent, `${filename}.txt`, 'text/plain');
+            }
+        }
+
+        function downloadFile(content, fileName, mimeType) {
+            const blob = new Blob([content], { type: mimeType });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = fileName;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Admin Add Emergency Contact
         function adminAddNewContact() {
             const title = document.getElementById('admin-add-contact-title').value.trim();
             const sub = document.getElementById('admin-add-contact-sub').value.trim();
@@ -1242,7 +1270,7 @@
 
             const list = document.getElementById('emergency-contacts-list');
             const newContact = document.createElement('div');
-            newContact.className = "contact-item p-3 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center animate-fade-in";
+            newContact.className = "contact-item p-3 bg-slate-50 rounded-2xl border border-slate-200/80 flex justify-between items-center transition hover:border-slate-300 animate-fade-in";
             
             const hideClass = isSuperAdminLoggedIn ? '' : 'hidden';
 
@@ -1252,10 +1280,10 @@
                     <p class="text-[10px] text-slate-500 contact-sub">${sub || 'เบอร์ติดต่อฉุกเฉิน'}</p>
                 </div>
                 <div class="flex items-center gap-1.5">
-                    <a href="tel:${phone}" class="contact-tel-link px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-lg font-bold text-xs flex items-center gap-1 shadow transition">
+                    <a href="tel:${phone}" class="contact-tel-link px-3 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl font-bold text-xs flex items-center gap-1 shadow transition active:scale-95">
                         <i class="fa-solid fa-phone"></i> โทรเลย
                     </a>
-                    <button onclick="adminDeleteContact(this)" class="admin-delete-contact-btn ${hideClass} px-2 py-1.5 bg-red-100 text-red-600 hover:bg-red-200 rounded-lg font-bold text-xs transition">
+                    <button onclick="adminDeleteContact(this)" class="admin-delete-contact-btn ${hideClass} px-2 py-1.5 bg-red-100 text-red-600 hover:bg-red-200 rounded-xl font-bold text-xs transition">
                         <i class="fa-solid fa-trash-can"></i>
                     </button>
                 </div>
@@ -1263,7 +1291,6 @@
 
             list.appendChild(newContact);
 
-            // Clear inputs
             document.getElementById('admin-add-contact-title').value = '';
             document.getElementById('admin-add-contact-sub').value = '';
             document.getElementById('admin-add-contact-phone').value = '';
@@ -1271,7 +1298,6 @@
             alert(`เพิ่มเบอร์โทรฉุกเฉิน "${title}" เรียบร้อยแล้ว!`);
         }
 
-        // Admin Delete Contact Item
         function adminDeleteContact(btn) {
             if (confirm("คุณต้องการลบเบอร์โทรติดต่อนี้ออกจากระบบใช่หรือไม่?")) {
                 const item = btn.closest('.contact-item');
@@ -1318,20 +1344,6 @@
             alert("ส่งสัญญาณบรอดแคสต์ถึงทุกหน้าจอเรียบร้อยแล้ว!");
         }
 
-        function adminExportEvacueesData() {
-            const items = document.querySelectorAll('.evacuee-item');
-            if (items.length === 0) {
-                alert("ไม่มีข้อมูลผู้อพยพในระบบ");
-                return;
-            }
-            let dataStr = "รายชื่อผู้อพยพทั้งหมดในระบบ:\n\n";
-            items.forEach((item, index) => {
-                dataStr += `${index + 1}. ${item.innerText.replace(/\n/g, ' ')}\n`;
-            });
-            alert(dataStr);
-        }
-
-        // Announcement Functions
         function publishAnnouncement() {
             const textInput = document.getElementById('officer-announcement-input');
             const message = textInput.value.trim();
@@ -1366,7 +1378,7 @@
             document.getElementById('live-time-str').innerHTML = `<i class="fa-regular fa-calendar-days mr-1 text-cyan-300"></i>${dateStr} <i class="fa-regular fa-clock ml-1 mr-0.5 text-cyan-300"></i>${timeStr} น.`;
         }
 
-        // Toggle Officer Control Mode & Modal
+        // RESCUE OFFICER MODAL & CONTROLS
         function toggleRescueOfficerMode() {
             if (!isOfficerLoggedIn) {
                 openOfficerLoginModal();
@@ -1408,16 +1420,16 @@
                 document.getElementById('officer-mode-btn').className = "px-2 py-1 rounded-full bg-amber-500 text-white text-xs font-bold border border-amber-600 flex items-center gap-1 shadow-sm";
                 document.getElementById('config-messenger-url').value = rescueMessengerLink;
                 
-                // Show household, canal & zone edit control buttons for officers
                 document.querySelectorAll('.officer-delete-hh-btn').forEach(btn => btn.classList.remove('hidden'));
                 document.querySelectorAll('.officer-canal-ctrl-btn').forEach(btn => btn.classList.remove('hidden'));
                 document.querySelectorAll('.officer-zone-edit-btn').forEach(btn => btn.classList.remove('hidden'));
+                document.querySelectorAll('.officer-delete-evac-btn').forEach(btn => btn.classList.remove('hidden'));
             } else {
                 document.getElementById('officer-login-error').classList.remove('hidden');
             }
         }
 
-        // Officer Edit Zone Details Function
+        // EDIT ZONE DETAILS
         function officerEditZone(zoneId) {
             const card = document.getElementById(`zone-card-${zoneId}`);
             if (!card) return;
@@ -1428,21 +1440,17 @@
             const countElem = document.getElementById(`zone-count-${zoneId}`);
             const countVal = countElem ? countElem.innerText : '0';
 
-            // 1. Edit Title
             const currentTitle = titleElem ? titleElem.innerText : '';
             const newTitle = prompt("แก้ไขชื่อโซน:", currentTitle);
             if (newTitle === null) return;
 
-            // 2. Edit Description
             let currentDescText = descElem ? descElem.innerText.split('|')[0].trim() : '';
             const newDesc = prompt("แก้ไขคำอธิบาย/จุดเสี่ยงของโซน:", currentDescText);
             if (newDesc === null) return;
 
-            // 3. Edit Risk Level
             const riskChoice = prompt("เลือกระดับความเสี่ยงโซน:\n1 = เสี่ยงสูงมาก (สีแดง)\n2 = เสี่ยงปานกลาง (สีส้ม)\n3 = เสี่ยงต่ำ (สีเขียว)");
             if (riskChoice === null) return;
 
-            // Apply updates
             if (newTitle.trim() !== '' && titleElem) {
                 titleElem.innerText = newTitle.trim();
             }
@@ -1451,26 +1459,25 @@
                 descElem.innerHTML = `${newDesc.trim()} | <span id="zone-count-${zoneId}">${countVal}</span> ครัวเรือน`;
             }
 
-            // Update Risk Style & Badge
             if (riskChoice === '1') {
-                card.className = "p-2.5 bg-red-50 border border-red-200 rounded-xl space-y-2 zone-card";
+                card.className = "p-3 bg-red-50 border border-red-200 rounded-2xl space-y-2 zone-card";
                 if (titleElem) titleElem.className = "font-bold text-red-900 zone-title-text";
                 if (badgeElem) {
-                    badgeElem.className = "zone-risk-badge px-2 py-1 bg-red-600 text-white font-bold rounded-md text-[10px]";
+                    badgeElem.className = "zone-risk-badge px-2 py-1 bg-red-600 text-white font-bold rounded-lg text-[10px]";
                     badgeElem.innerText = "เสี่ยงสูงมาก";
                 }
             } else if (riskChoice === '2') {
-                card.className = "p-2.5 bg-amber-50 border border-amber-200 rounded-xl space-y-2 zone-card";
+                card.className = "p-3 bg-amber-50 border border-amber-200 rounded-2xl space-y-2 zone-card";
                 if (titleElem) titleElem.className = "font-bold text-amber-900 zone-title-text";
                 if (badgeElem) {
-                    badgeElem.className = "zone-risk-badge px-2 py-1 bg-amber-500 text-white font-bold rounded-md text-[10px]";
+                    badgeElem.className = "zone-risk-badge px-2 py-1 bg-amber-500 text-white font-bold rounded-lg text-[10px]";
                     badgeElem.innerText = "เสี่ยงปานกลาง";
                 }
             } else if (riskChoice === '3') {
-                card.className = "p-2.5 bg-slate-100 border border-slate-200 rounded-xl space-y-2 zone-card";
+                card.className = "p-3 bg-slate-50 border border-slate-200 rounded-2xl space-y-2 zone-card";
                 if (titleElem) titleElem.className = "font-bold text-slate-800 zone-title-text";
                 if (badgeElem) {
-                    badgeElem.className = "zone-risk-badge px-2 py-1 bg-emerald-600 text-white font-bold rounded-md text-[10px]";
+                    badgeElem.className = "zone-risk-badge px-2 py-1 bg-emerald-600 text-white font-bold rounded-lg text-[10px]";
                     badgeElem.innerText = "เสี่ยงต่ำ";
                 }
             }
@@ -1478,7 +1485,7 @@
             alert(`อัปเดตข้อมูลรายละเอียดโซน ${zoneId} เรียบร้อยแล้ว!`);
         }
 
-        // Canal Management Functions for Officer / Admin
+        // CANAL CONTROL FUNCTIONS
         function officerAddCanal() {
             const name = document.getElementById('officer-canal-name').value.trim();
             const desc = document.getElementById('officer-canal-desc').value.trim();
@@ -1493,16 +1500,16 @@
             const hideClass = (isOfficerLoggedIn || isSuperAdminLoggedIn) ? '' : 'hidden';
 
             const newItem = document.createElement('div');
-            newItem.className = "canal-item p-2.5 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center animate-fade-in";
+            newItem.className = "canal-item p-3 bg-slate-50 rounded-2xl border border-slate-200/80 flex justify-between items-center transition hover:border-slate-300 animate-fade-in";
             newItem.innerHTML = `
                 <div>
                     <p class="font-bold text-slate-800 canal-name-text">${name}</p>
                     <p class="text-[10px] text-slate-500 canal-desc-text">${desc || 'ลำคลองในพื้นที่'}</p>
                 </div>
                 <div class="flex items-center gap-1.5">
-                    <span class="canal-val-badge px-2 py-1 rounded-md bg-emerald-100 text-emerald-800 font-bold text-[10px]">${val}</span>
-                    <button onclick="officerEditCanal(this)" class="officer-canal-ctrl-btn ${hideClass} text-blue-600 hover:text-blue-800 text-[11px] font-bold px-1"><i class="fa-solid fa-pen"></i></button>
-                    <button onclick="officerDeleteCanal(this)" class="officer-canal-ctrl-btn ${hideClass} text-red-600 hover:text-red-800 text-[11px] font-bold px-1"><i class="fa-solid fa-trash-can"></i></button>
+                    <span class="canal-val-badge px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-[10px]">${val}</span>
+                    <button onclick="officerEditCanal(this)" class="officer-canal-ctrl-btn ${hideClass} text-blue-600 hover:text-blue-800 text-xs font-bold px-1"><i class="fa-solid fa-pen"></i></button>
+                    <button onclick="officerDeleteCanal(this)" class="officer-canal-ctrl-btn ${hideClass} text-red-600 hover:text-red-800 text-xs font-bold px-1"><i class="fa-solid fa-trash-can"></i></button>
                 </div>
             `;
 
@@ -1536,13 +1543,12 @@
             if (newDesc.trim() !== '') descElem.innerText = newDesc.trim();
             if (newVal.trim() !== '') {
                 valElem.innerText = newVal.trim();
-                // Change color based on status text
                 if (newVal.includes('เฝ้าระวัง')) {
-                    valElem.className = "canal-val-badge px-2 py-1 rounded-md bg-amber-100 text-amber-800 font-bold text-[10px]";
+                    valElem.className = "canal-val-badge px-2.5 py-1 rounded-lg bg-amber-100 text-amber-800 font-bold text-[10px]";
                 } else if (newVal.includes('อันตราย') || newVal.includes('วิกฤต')) {
-                    valElem.className = "canal-val-badge px-2 py-1 rounded-md bg-red-100 text-red-800 font-bold text-[10px]";
+                    valElem.className = "canal-val-badge px-2.5 py-1 rounded-lg bg-red-100 text-red-800 font-bold text-[10px]";
                 } else {
-                    valElem.className = "canal-val-badge px-2 py-1 rounded-md bg-emerald-100 text-emerald-800 font-bold text-[10px]";
+                    valElem.className = "canal-val-badge px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-[10px]";
                 }
             }
 
@@ -1559,7 +1565,7 @@
             }
         }
 
-        // Officer Add Household Function
+        // HOUSEHOLD CONTROL FUNCTIONS
         function officerAddHousehold() {
             const zoneId = document.getElementById('officer-add-household-zone').value;
             const nameInfo = document.getElementById('officer-add-household-name').value.trim();
@@ -1575,7 +1581,7 @@
             const hideClass = (isOfficerLoggedIn || isSuperAdminLoggedIn) ? '' : 'hidden';
 
             const newItem = document.createElement('div');
-            newItem.className = "household-item flex justify-between items-center bg-white/70 px-2 py-1 rounded border border-slate-200 animate-fade-in";
+            newItem.className = "household-item flex justify-between items-center bg-white/80 px-2.5 py-1 rounded-xl border border-slate-200 animate-fade-in";
             newItem.innerHTML = `
                 <span>${nameInfo}</span>
                 <button onclick="officerDeleteHousehold(this, ${zoneId})" class="officer-delete-hh-btn ${hideClass} text-[10px] text-red-600 hover:underline font-bold">ลบ</button>
@@ -1583,7 +1589,6 @@
 
             container.appendChild(newItem);
 
-            // Update zone count stat
             const countElem = document.getElementById(`zone-count-${zoneId}`);
             if (countElem) {
                 countElem.innerText = parseInt(countElem.innerText || '0') + 1;
@@ -1593,7 +1598,6 @@
             alert(`บันทึกข้อมูลครัวเรือน "${nameInfo}" เข้าสู่โซน ${zoneId} เรียบร้อยแล้ว!`);
         }
 
-        // Officer Delete Household Function
         function officerDeleteHousehold(btn, zoneId) {
             if (confirm("ต้องการลบข้อมูลครัวเรือนนี้ใช่หรือไม่?")) {
                 const item = btn.closest('.household-item');
@@ -1624,7 +1628,7 @@
             else if (choice === "4") setSimLevel('critical');
         }
 
-        // Switch Bottom Navigation Tabs
+        // NAVIGATION TAB SWITCHER
         function switchBottomTab(tabName) {
             const panes = document.querySelectorAll('.tab-pane');
             panes.forEach(p => p.classList.add('hidden'));
@@ -1645,7 +1649,7 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // Level Simulator Handler
+        // SIMULATOR LEVEL HANDLER
         function setSimLevel(level) {
             currentAlertLevel = level;
             
@@ -1663,7 +1667,6 @@
             const statRiskZones = document.getElementById('stat-risk-zones');
             const statRiskHouseholds = document.getElementById('stat-risk-households');
 
-            // Reset Card Borders
             ['btn-lvl-1', 'btn-lvl-2', 'btn-lvl-3', 'btn-lvl-4'].forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.className = "cursor-pointer bg-white p-3 rounded-2xl border border-slate-200 shadow-sm flex items-start gap-2.5 hover:bg-slate-50 transition active:scale-95";
@@ -1673,14 +1676,14 @@
                 title.innerText = "ปกติ";
                 title.className = "text-4xl font-extrabold text-emerald-400 tracking-tight transition-all";
                 levelTag.innerText = "ระดับ 1/4";
-                levelTag.className = "inline-block px-2 py-0.5 rounded-md bg-emerald-500 text-white text-[10px] font-bold mb-1";
+                levelTag.className = "inline-block px-2 py-0.5 rounded-md bg-emerald-500 text-white text-[10px] font-bold mb-1 shadow";
                 subdesc.innerText = "ติดตามข่าวสารตามปกติ";
                 detail.innerText = "ระดับน้ำในลำคลองทั้ง 3 จุดอยู่ในเกณฑ์ปกติ สภาพอากาศแจ่มใส";
                 gaugeFill.style.height = "35%";
                 gaugeFill.className = "gauge-fill bg-emerald-500";
                 gaugePercent.innerText = "35%";
 
-                headerBadge.className = "flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold border border-emerald-200";
+                headerBadge.className = "flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold border border-emerald-200 shadow-sm";
                 headerText.innerText = "ปกติ";
                 headerDot.className = "w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse";
 
@@ -1689,20 +1692,20 @@
                 statRiskZones.innerHTML = `0 <span class="text-[10px] font-normal text-blue-200/70">/8 โซน</span>`;
                 statRiskHouseholds.innerText = "0 ครัวเรือน";
 
-                document.getElementById('btn-lvl-1').className = "cursor-pointer bg-white p-3 rounded-2xl border-2 border-emerald-500 shadow-sm flex items-start gap-2.5 hover:bg-emerald-50 transition active:scale-95";
+                document.getElementById('btn-lvl-1').className = "cursor-pointer bg-white p-3 rounded-2xl border-2 border-emerald-500 shadow-glow-emerald flex items-start gap-2.5 hover:bg-emerald-50 transition active:scale-95";
             }
             else if (level === 'warning') {
                 title.innerText = "เฝ้าระวัง";
                 title.className = "text-4xl font-extrabold text-amber-400 tracking-tight transition-all";
                 levelTag.innerText = "ระดับ 2/4";
-                levelTag.className = "inline-block px-2 py-0.5 rounded-md bg-amber-500 text-white text-[10px] font-bold mb-1";
+                levelTag.className = "inline-block px-2 py-0.5 rounded-md bg-amber-500 text-white text-[10px] font-bold mb-1 shadow";
                 subdesc.innerText = "ยกของขึ้นที่สูง เตรียมพร้อม";
                 detail.innerText = "ระดับน้ำคลองจาแบปะเริ่มเอ่อล้นถนนในพื้นที่ลุ่มต่ำ ขอให้ยกของขึ้นที่สูง";
                 gaugeFill.style.height = "60%";
                 gaugeFill.className = "gauge-fill bg-amber-500";
                 gaugePercent.innerText = "60%";
 
-                headerBadge.className = "flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold border border-amber-200";
+                headerBadge.className = "flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-800 text-xs font-bold border border-amber-200 shadow-sm";
                 headerText.innerText = "เฝ้าระวัง";
                 headerDot.className = "w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse";
 
@@ -1711,20 +1714,20 @@
                 statRiskZones.innerHTML = `2 <span class="text-[10px] font-normal text-blue-200/70">/8 โซน</span>`;
                 statRiskHouseholds.innerText = "15 ครัวเรือน";
 
-                document.getElementById('btn-lvl-2').className = "cursor-pointer bg-white p-3 rounded-2xl border-2 border-amber-500 shadow-sm flex items-start gap-2.5 hover:bg-amber-50 transition active:scale-95";
+                document.getElementById('btn-lvl-2').className = "cursor-pointer bg-white p-3 rounded-2xl border-2 border-amber-500 shadow-glow-amber flex items-start gap-2.5 hover:bg-amber-50 transition active:scale-95";
             }
             else if (level === 'danger') {
                 title.innerText = "อันตราย";
                 title.className = "text-4xl font-extrabold text-red-400 tracking-tight transition-all";
                 levelTag.innerText = "ระดับ 3/4";
-                levelTag.className = "inline-block px-2 py-0.5 rounded-md bg-red-500 text-white text-[10px] font-bold mb-1";
+                levelTag.className = "inline-block px-2 py-0.5 rounded-md bg-red-500 text-white text-[10px] font-bold mb-1 shadow";
                 subdesc.innerText = "น้ำเริ่มเข้าบ้าน อพยพคนชรา";
                 detail.innerText = "น้ำท่วมสูง 20-40 ซม. ในหลายโซน เคลื่อนย้ายเด็ก/คนชราไปศูนย์อพยพทันที";
                 gaugeFill.style.height = "85%";
                 gaugeFill.className = "gauge-fill bg-red-500";
                 gaugePercent.innerText = "85%";
 
-                headerBadge.className = "flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-100 text-red-800 text-xs font-bold border border-red-200";
+                headerBadge.className = "flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-100 text-red-800 text-xs font-bold border border-red-200 shadow-sm";
                 headerText.innerText = "อันตราย";
                 headerDot.className = "w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse";
 
@@ -1733,20 +1736,20 @@
                 statRiskZones.innerHTML = `5 <span class="text-[10px] font-normal text-blue-200/70">/8 โซน</span>`;
                 statRiskHouseholds.innerText = "48 ครัวเรือน";
 
-                document.getElementById('btn-lvl-3').className = "cursor-pointer bg-white p-3 rounded-2xl border-2 border-red-500 shadow-sm flex items-start gap-2.5 hover:bg-red-50 transition active:scale-95";
+                document.getElementById('btn-lvl-3').className = "cursor-pointer bg-white p-3 rounded-2xl border-2 border-red-500 shadow-glow-red flex items-start gap-2.5 hover:bg-red-50 transition active:scale-95";
             }
             else if (level === 'critical') {
                 title.innerText = "วิกฤต";
                 title.className = "text-4xl font-extrabold text-purple-400 tracking-tight transition-all animate-pulse";
                 levelTag.innerText = "ระดับ 4/4";
-                levelTag.className = "inline-block px-2 py-0.5 rounded-md bg-purple-600 text-white text-[10px] font-bold mb-1";
+                levelTag.className = "inline-block px-2 py-0.5 rounded-md bg-purple-600 text-white text-[10px] font-bold mb-1 shadow";
                 subdesc.innerText = "ตัดไฟฟ้า อพยพทันทีตามแผน";
                 detail.innerText = "ระดับน้ำล้นตลิ่งทุกจุด อพยพชาวบ้านทุกคนออกจากพื้นที่เสี่ยงทันที";
                 gaugeFill.style.height = "100%";
                 gaugeFill.className = "gauge-fill bg-purple-600";
                 gaugePercent.innerText = "100%";
 
-                headerBadge.className = "flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-bold border border-purple-200";
+                headerBadge.className = "flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 text-purple-800 text-xs font-bold border border-purple-200 shadow-sm";
                 headerText.innerText = "วิกฤต";
                 headerDot.className = "w-2.5 h-2.5 rounded-full bg-purple-600 animate-ping";
 
@@ -1755,11 +1758,11 @@
                 statRiskZones.innerHTML = `8 <span class="text-[10px] font-normal text-blue-200/70">/8 โซน</span>`;
                 statRiskHouseholds.innerText = "ทุกครัวเรือน";
 
-                document.getElementById('btn-lvl-4').className = "cursor-pointer bg-white p-3 rounded-2xl border-2 border-purple-600 shadow-sm flex items-start gap-2.5 hover:bg-purple-50 transition active:scale-95";
+                document.getElementById('btn-lvl-4').className = "cursor-pointer bg-white p-3 rounded-2xl border-2 border-purple-600 shadow-glow-purple flex items-start gap-2.5 hover:bg-purple-50 transition active:scale-95";
             }
         }
 
-        // SOS Modal Control
+        // SOS MODALS AND REAL-TIME GPS
         function openSosModal() {
             document.getElementById('sos-modal').classList.remove('hidden');
         }
@@ -1768,10 +1771,9 @@
             document.getElementById('sos-modal').classList.add('hidden');
         }
 
-        // Get Geolocation Coordinates
         function getCurrentLocation(textId, latId, lngId) {
             const btnText = document.getElementById(textId);
-            btnText.innerText = "กำลังค้นหาพิกัด GPS...";
+            btnText.innerText = "กำลังดึงพิกัด GPS...";
 
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -1781,20 +1783,19 @@
                         document.getElementById(latId).value = lat;
                         document.getElementById(lngId).value = lng;
                         btnText.innerText = `ดึงพิกัดสำเร็จ: ${lat.toFixed(4)}, ${lng.toFixed(4)} ✓`;
-                        btnText.parentElement.className = "w-full bg-emerald-50 border border-emerald-300 text-emerald-800 py-2 px-3 rounded-xl flex items-center justify-center gap-1.5 font-bold transition";
+                        btnText.parentElement.className = "w-full bg-emerald-50 border border-emerald-300 text-emerald-800 py-2.5 px-3 rounded-xl flex items-center justify-center gap-1.5 font-bold transition";
                     },
                     (error) => {
-                        alert("ไม่สามารถเข้าถึงตำแหน่งพิกัด GPS ได้ กรุณาเปิดระบบระบุตำแหน่งของอุปกรณ์");
+                        alert("ไม่สามารถดึงตำแหน่งพิกัด GPS ได้ กรุณาอนุญาตเปิดสิทธิ์ตำแหน่งในเบราว์เซอร์");
                         btnText.innerText = "กดเพื่อระบุพิกัด GPS เรียลไทม์";
                     }
                 );
             } else {
-                alert("เบราว์เซอร์ของคุณไม่รองรับการดึงพิกัด GPS");
+                alert("อุปกรณ์ของคุณไม่รองรับการดึงพิกัด GPS");
                 btnText.innerText = "กดเพื่อระบุพิกัด GPS เรียลไทม์";
             }
         }
 
-        // Handle SOS Submit
         function handleSosSubmit(e) {
             e.preventDefault();
             const name = document.getElementById('sos-name').value;
@@ -1814,12 +1815,11 @@
             let googleMapsUrl = "";
             if (lat && lng) {
                 gpsString = `${lat}, ${lng}`;
-                googleMapsUrl = `\n📍 แผนที่: https://maps.google.com/?q=${lat},${lng}`;
+                googleMapsUrl = `\n📍 แผนที่ GPS: https://maps.google.com/?q=${lat},${lng}`;
             }
 
             const messageText = `🚨 *แจ้งขอความช่วยเหลือฉุกเฉิน SOS (บ้านคลอแระ)*\n👤 ชื่อ: ${name}\n📞 เบอร์โทร: ${phone}\n📍 โซน: ${zone} (${detailLoc})\n🆘 ต้องการ: ${type}\n🌐 พิกัด GPS: ${gpsString}${googleMapsUrl}`;
 
-            // Copy SOS message to clipboard
             if (navigator.clipboard && window.isSecureContext) {
                 navigator.clipboard.writeText(messageText);
             } else {
@@ -1834,14 +1834,14 @@
             closeSosModal();
 
             if (target === 'messenger') {
-                alert("คัดลอกข้อความแจ้ง SOS พร้อมพิกัด GPS เรียบร้อยแล้ว!\n\nระบบกำลังพาคุณไปยัง Messenger ทีมกู้ภัย สามารถวาง (Paste) ข้อความส่งหาทีมกู้ภัยได้ทันที");
+                alert("คัดลอกข้อความแจ้ง SOS พร้อมพิกัด GPS เรียบร้อยแล้ว!\n\nระบบกำลังพาไปยัง Messenger ทีมกู้ภัย สามารถกดวาง (Paste) ส่งข้อความหาทีมกู้ภัยได้ทันที");
                 window.open(rescueMessengerLink, '_blank');
             } else {
-                alert("คัดลอกข้อความ SOS พร้อมพิกัด GPS เรียบร้อยแล้ว! คุณสามารถนำข้อความไปวางส่งในไลน์ หรือช่องทางอื่นได้เลย");
+                alert("คัดลอกข้อความ SOS พร้อมพิกัด GPS เรียบร้อยแล้ว! สามารถนำข้อความไปวางส่งทาง LINE หรือแอปอื่นๆ ได้เลย");
             }
         }
 
-        // Evacuee Modal Control
+        // EVACUEE REGISTRATION MODAL
         function openEvacueeModal() {
             document.getElementById('evacuee-modal').classList.remove('hidden');
         }
@@ -1850,7 +1850,6 @@
             document.getElementById('evacuee-modal').classList.add('hidden');
         }
 
-        // Handle Evacuee Registration Submit
         function handleEvacueeSubmit(e) {
             e.preventDefault();
             const shelter = document.getElementById('evac-shelter').value;
@@ -1868,8 +1867,10 @@
             else if (group === "ผู้ป่วย/ผู้พิการ") groupBadgeClass = "bg-red-100 text-red-800";
             else if (group === "หญิงตั้งครรภ์") groupBadgeClass = "bg-pink-100 text-pink-800";
 
+            const hideClass = (isOfficerLoggedIn || isSuperAdminLoggedIn) ? '' : 'hidden';
+
             const newCard = document.createElement('div');
-            newCard.className = "p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs flex justify-between items-center evacuee-item animate-fade-in";
+            newCard.className = "p-3 bg-slate-50 border border-slate-200 rounded-2xl text-xs flex justify-between items-center evacuee-item transition hover:border-slate-300 animate-fade-in";
             newCard.innerHTML = `
                 <div>
                     <div class="flex items-center gap-1.5">
@@ -1879,12 +1880,16 @@
                     <p class="text-[10px] text-slate-500">มาจาก: ${zone} | พักที่: ${shelter}</p>
                     <p class="text-[10px] text-emerald-700 font-semibold">ติดต่อ: ${phone}</p>
                 </div>
-                <span class="text-[9px] bg-slate-200 text-slate-700 px-2 py-1 rounded-md font-bold whitespace-nowrap">${room}</span>
+                <div class="flex flex-col items-end gap-1">
+                    <span class="text-[9px] bg-slate-200 text-slate-700 px-2 py-1 rounded-md font-bold whitespace-nowrap">${room}</span>
+                    <button onclick="officerDeleteEvacuee(this)" class="officer-delete-evac-btn ${hideClass} text-[10px] text-red-600 hover:text-red-700 hover:underline font-bold transition">
+                        <i class="fa-solid fa-trash-can mr-0.5"></i> ลบ
+                    </button>
+                </div>
             `;
 
             list.insertBefore(newCard, list.firstChild);
 
-            // Update Count
             const itemsCount = list.querySelectorAll('.evacuee-item').length;
             document.getElementById('evacuee-count-badge').innerText = `${itemsCount} คน`;
 
@@ -1892,7 +1897,20 @@
             closeEvacueeModal();
         }
 
-        // Filter/Search Evacuees List
+        // OFFICER DELETE EVACUEE FUNCTION
+        function officerDeleteEvacuee(btn) {
+            if (confirm("คุณต้องการลบข้อมูลผู้อพยพท่านนี้ออกจากระบบศูนย์อพยพใช่หรือไม่?")) {
+                const card = btn.closest('.evacuee-item');
+                if (card) {
+                    card.remove();
+                    const list = document.getElementById('evacuees-list');
+                    const itemsCount = list.querySelectorAll('.evacuee-item').length;
+                    document.getElementById('evacuee-count-badge').innerText = `${itemsCount} คน`;
+                    alert("ลบข้อมูลผู้อพยพออกจากระบบเรียบร้อยแล้ว");
+                }
+            }
+        }
+
         function filterEvacuees() {
             const query = document.getElementById('evacuee-search').value.toLowerCase();
             const items = document.querySelectorAll('.evacuee-item');
@@ -1909,3 +1927,4 @@
     </script>
 </body>
 </html>
+```
