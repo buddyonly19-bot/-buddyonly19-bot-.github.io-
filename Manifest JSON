@@ -1,0 +1,21 @@
+{
+"short_name": "เตือนภัยน้ำท่วม",
+"name": "ระบบติดตามและแจ้งเตือนสถานการณ์น้ำท่วม บ้านคลอแระ หมู่ 3",
+"icons": [
+{
+"src": "https://cdn-icons-png.flaticon.com/512/5664/5664977.png",
+"type": "image/png",
+"sizes": "192x192"
+},
+{
+"src": "https://cdn-icons-png.flaticon.com/512/5664/5664977.png",
+"type": "image/png",
+"sizes": "512x512"
+}
+],
+"start_url": "./index.html",
+"background_color": "#f8fafc",
+"theme_color": "#0284c7",
+"display": "standalone",
+"orientation": "portrait"
+}
